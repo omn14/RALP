@@ -249,7 +249,7 @@ def RALP_GUI():
 
 	root.title("Robust Areal Landslide Prediction (RALP) v1.11")    # S/W title
 	root.call('wm', 'iconphoto', root._w, tk.PhotoImage(file='NGI_logo_cropped.png'))     # icon
-	root.geometry("1995x935")            # window size - when need to fix 
+	root.geometry("1995x1020")            # window size - when need to fix 
 
 	###########################################################################
 	## mainframe, canvas and scrollbar
@@ -277,7 +277,7 @@ def RALP_GUI():
 	# root.resizable(width=False, height=False)
 
 	# set maxium and minimum size GUI can become
-	root.maxsize(2000, 1000)
+	root.maxsize(2000, 1100)
 	root.minsize(650, 500)
 
 	#################################
@@ -8312,7 +8312,7 @@ def RALP_GUI():
 	## Column 1 and 2 separator
 	######################################
 	separator_col1_col2 = ttk.Separator(GUI_frame, orient='vertical')
-	separator_col1_col2.grid(row=0, column=8, rowspan=19, padx=1, pady=5, sticky="ns")
+	separator_col1_col2.grid(row=0, column=8, rowspan=21, padx=1, pady=5, sticky="ns")
 
 	######################################
 	# Section Title - topographic inputs
@@ -8741,9 +8741,9 @@ def RALP_GUI():
 	ET_history_opt_combo.current(0)
 	ET_history_assign_button = tk.Button(GUI_frame, text="Assign", width=8, height=1, padx=10, pady=5, font=("Arial", 12), command=ET_history_func)
 
-	ET_history_label.grid(row=17, column=9, columnspan=1, padx=5, pady=(0,5), sticky="w")
-	ET_history_opt_combo.grid(row=17, column=10, columnspan=6, padx=5, pady=5, sticky="we")
-	ET_history_assign_button.grid(row=17, column=16, columnspan=1, padx=5, pady=5, sticky="e")
+	ET_history_label.grid(row=19, column=9, columnspan=1, padx=5, pady=(0,5), sticky="w")
+	ET_history_opt_combo.grid(row=19, column=10, columnspan=6, padx=5, pady=5, sticky="we")
+	ET_history_assign_button.grid(row=19, column=16, columnspan=1, padx=5, pady=5, sticky="e")
 
 	##############
 	# ET intensity unit
@@ -8760,8 +8760,8 @@ def RALP_GUI():
 	)
 	ET_intensity_unit_combo.current(0)
 
-	ET_intensity_unit_label.grid(row=18, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
-	ET_intensity_unit_combo.grid(row=18, column=11, columnspan=2, padx=5, pady=5, sticky="we")
+	ET_intensity_unit_label.grid(row=20, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
+	ET_intensity_unit_combo.grid(row=20, column=11, columnspan=2, padx=5, pady=5, sticky="we")
 
 	##############
 	# field capacity suction
@@ -8771,8 +8771,8 @@ def RALP_GUI():
 	field_capacity_suction_double.set(33.0)
 	field_capacity_suction_entry = tk.Entry(GUI_frame, width=12, bd=3, font=("Arial", 12), textvariable=field_capacity_suction_double)
 
-	field_capacity_suction_label.grid(row=18, column=13, columnspan=2, padx=5, pady=(0,5), sticky="w")
-	field_capacity_suction_entry.grid(row=18, column=15, columnspan=2, padx=5, pady=5, sticky="we")
+	field_capacity_suction_label.grid(row=20, column=13, columnspan=2, padx=5, pady=(0,5), sticky="w")
+	field_capacity_suction_entry.grid(row=20, column=15, columnspan=2, padx=5, pady=5, sticky="we")
 
 	######################################
 	## Infiltration Model Options
@@ -8795,8 +8795,8 @@ def RALP_GUI():
 
 	infil_model_str.trace_add("write", infil_model_func)  	# disable and able based combobox option
 
-	infil_model_label.grid(row=19, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
-	infil_model_combo.grid(row=19, column=11, columnspan=2, padx=5, pady=5, sticky="we")
+	infil_model_label.grid(row=17, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
+	infil_model_combo.grid(row=17, column=11, columnspan=2, padx=5, pady=5, sticky="we")
 
 	##############
 	# SWCC model
@@ -8813,8 +8813,8 @@ def RALP_GUI():
 	)
 	SWCC_model_combo.current(0) # default "van Genuchten (1980)" - indicated by index number from values
 
-	SWCC_model_label.grid(row=19, column=13, columnspan=1, padx=5, pady=(0,5), sticky="w")
-	SWCC_model_combo.grid(row=19, column=15, columnspan=2, padx=5, pady=5, sticky="we")
+	SWCC_model_label.grid(row=17, column=13, columnspan=1, padx=5, pady=(0,5), sticky="w")
+	SWCC_model_combo.grid(row=17, column=15, columnspan=2, padx=5, pady=5, sticky="we")
 
 	##############
 	# unit weight of water
@@ -8832,8 +8832,8 @@ def RALP_GUI():
 	# if infil_model_str.get() == "Iverson":
 	# 	unit_weight_water_entry.config(state="disabled")
 
-	unit_weight_water_label.grid(row=20, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
-	unit_weight_water_entry.grid(row=20, column=11, columnspan=2, padx=5, pady=5, sticky="we")
+	unit_weight_water_label.grid(row=18, column=9, columnspan=2, padx=5, pady=(0,5), sticky="w")
+	unit_weight_water_entry.grid(row=18, column=11, columnspan=2, padx=5, pady=5, sticky="we")
 
 	##############
 	# Green-Ampt surface infiltration option
@@ -8844,14 +8844,14 @@ def RALP_GUI():
 	surf_dip_for_GA_int.set(0) 
 	surf_dip_for_GA_checkbutton = tk.Checkbutton(GUI_frame, variable=surf_dip_for_GA_int, onvalue=1, offvalue=0)
 
-	surf_dip_for_GA_label.grid(row=20, column=13, columnspan=3, padx=5, pady=(0,5), sticky="w")
-	surf_dip_for_GA_checkbutton.grid(row=20, column=16, padx=(5,5), pady=5, sticky="w")
+	surf_dip_for_GA_label.grid(row=18, column=13, columnspan=3, padx=5, pady=(0,5), sticky="w")
+	surf_dip_for_GA_checkbutton.grid(row=18, column=16, padx=(5,5), pady=5, sticky="w")
 
 	######################################
 	## Column 2 and 3 separator
 	######################################
 	separator_col2_col3 = ttk.Separator(GUI_frame, orient='vertical')
-	separator_col2_col3.grid(row=0, column=17, rowspan=19, padx=1, pady=5, sticky="ns")
+	separator_col2_col3.grid(row=0, column=17, rowspan=21, padx=1, pady=5, sticky="ns")
 
 	############################################################################
 	## Landslide Susceptibility Header
@@ -9445,7 +9445,7 @@ def RALP_GUI():
 	## status
 	#################################
 	status = tk.Label(GUI_frame, text="", bd=1, relief='sunken', anchor="e", font=("Arial", 12))
-	status.grid(row=19, column=0, columnspan=26, sticky="we")
+	status.grid(row=21, column=0, columnspan=26, sticky="we")
 
 	###########################################################################
 	## GUI operation
