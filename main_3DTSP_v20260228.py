@@ -3794,6 +3794,43 @@ def compute_GA_nonUniRain_slanted_MP(compute_GA_slanted_nonUniRain_input):
 	ET_cumul_pre    # cumulative actual ET from previous time step (m)
 	'''
 
+	#############################
+	## Recompute T_p and T_pp for current rainfall intensity
+	## (time-compression approach for non-uniform rainfall)
+	## T_p and T_pp are initially computed from the first time step's rain rate.
+	## When rainfall changes, they must be updated so that the GA ponding equation 
+	## uses the correct virtual time, not the full elapsed time from t=0.
+	#############################
+	cos_beta = np.cos(np.radians(slope_beta_deg))
+	if slope_beta_deg < 90 and rain_I > 0 and delta_theta > 0 and psi_r_head > 0 and k_sat_z > 0:
+		rain_eff = rain_I * cos_beta
+		if rain_eff > k_sat_z:
+			# Ponding is possible with current rainfall intensity
+			# Compute F_p for current rain rate (cumulative infiltration at ponding onset)
+			denom = rain_I - k_sat_z * cos_beta
+			if denom > 0:
+				F_p_current = (psi_r_head * k_sat_z * delta_theta) / denom
+			else:
+				F_p_current = 1e9
+
+			pd = psi_r_head * delta_theta  # ψ_f × Δθ
+
+			if infil_cumul_F_pre >= F_p_current and F_p_current > 0:
+				# Already past ponding point for this rain rate
+				# Time-compression: compute virtual GA time τ that produces F_pre
+				T_pp = (infil_cumul_F_pre - (pd / cos_beta) * np.log(1.0 + infil_cumul_F_pre * cos_beta / pd)) / (k_sat_z * cos_beta)
+				T_p = cur_t - dt
+			else:
+				# F_pre < F_p: ponding hasn't started yet at this rain rate
+				# Compute T_p as absolute time when ponding would begin
+				time_to_Fp = (F_p_current - infil_cumul_F_pre) / (rain_I * cos_beta) if rain_I * cos_beta > 0 else 1e9
+				T_p = (cur_t - dt) + time_to_Fp
+				# T_pp: virtual GA time at F_p
+				if pd > 0:
+					T_pp = (F_p_current - (pd / cos_beta) * np.log(1.0 + F_p_current * cos_beta / pd)) / (k_sat_z * cos_beta)
+				else:
+					T_pp = 0
+
 	## check whether the infiltration situation is ponding or not at the cur_t
 	if infil_cumul_F_pre > 0 and (cur_t - T_p + T_pp) > 0:
 		try:
