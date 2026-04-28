@@ -7851,13 +7851,7 @@ def perform_3DTSP_v2(monte_carlo_iter_filename_dict):
 			gwt_dz_start = DEM_surface - gwt_z_t
 			sat_from_top_start = np.clip(z_w_t, 0, soil_thickness)
 			sat_from_bottom_start = np.clip(soil_thickness - gwt_dz_start, 0, soil_thickness)
-			# When wetting front has merged with gwt (zones overlap), use gwt_dz as unsaturated thickness
-			merged_start = (sat_from_top_start + sat_from_bottom_start) > soil_thickness
-			unsaturated_thickness_start = np.where(
-				merged_start,
-				np.clip(gwt_dz_start, 0, soil_thickness),
-				np.clip(soil_thickness - sat_from_top_start - sat_from_bottom_start, 0, soil_thickness)
-			)
+			unsaturated_thickness_start = np.clip(soil_thickness - sat_from_top_start - sat_from_bottom_start, 0, soil_thickness)
 			deg_sat_t = np.where(
 				(soil_thickness > 0) & (theta_sat > 0),
 				np.clip(1.0 - (unsaturated_thickness_start * delta_theta) / (soil_thickness * theta_sat), 0.0, 1.0),
@@ -8156,14 +8150,7 @@ def perform_3DTSP_v2(monte_carlo_iter_filename_dict):
 			# unsaturated zone (between wetting front and gwt) has theta_initial = theta_sat - delta_theta
 			sat_from_top = np.clip(infil_zw_f, 0, soil_thickness)
 			sat_from_bottom = np.clip(soil_thickness - gwt_dz_new_f, 0, soil_thickness)
-			# When wetting front has merged with gwt (zones overlap), the entire soil
-			# between surface and gwt is unsaturated and only gwt_dz determines saturation
-			merged = (sat_from_top + sat_from_bottom) > soil_thickness
-			unsaturated_thickness = np.where(
-				merged,
-				np.clip(gwt_dz_new_f, 0, soil_thickness),
-				np.clip(soil_thickness - sat_from_top - sat_from_bottom, 0, soil_thickness)
-			)
+			unsaturated_thickness = np.clip(soil_thickness - sat_from_top - sat_from_bottom, 0, soil_thickness)
 			deg_sat_f = np.where(
 				(soil_thickness > 0) & (theta_sat > 0),
 				np.clip(1.0 - (unsaturated_thickness * delta_theta) / (soil_thickness * theta_sat), 0.0, 1.0),
